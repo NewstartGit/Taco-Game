@@ -8,6 +8,7 @@ public class Wrapper : MonoBehaviour
     public String foodType;
     public List<string> ingredients;
     public GameObject tacoWrap;
+    public GameObject burritoWrap;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +41,20 @@ public class Wrapper : MonoBehaviour
                 Destroy(other.gameObject);
                 Destroy(transform.parent.gameObject);
             }
+            if (other.gameObject.tag == "Burrito")
+            {
+                other.gameObject.tag = "WrappedBurrito"; // So other wrappers cant wrap the same burrito
+                BurritoContent burritoScript = other.gameObject.GetComponent<BurritoContent>();
+                foodType = "Tortilla";
+                ingredients = burritoScript.ingredients;
+                Transform burritoPosition = other.gameObject.transform;
+                Destroy(other.gameObject);
+
+                GameObject burritoWrapObj = Instantiate(burritoWrap, transform.position + new Vector3(0, 0.25f, 0), Quaternion.Euler(0, burritoPosition.rotation.eulerAngles.y, -90));
+                burritoWrapObj.GetComponent<WrapperContent>().SetIngredientsList(foodType, ingredients);
+                Destroy(transform.parent.gameObject);
+            }
         }
+   
     }
 }

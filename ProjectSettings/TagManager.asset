@@ -15,6 +15,13 @@ TagManager:
   - Hands
   - WrappedTaco
   - SourCreamGun
+  - Tortilla
+  - Burrito
+  - WrappedBurrito
+  - OnionSource
+  - BeanSource
+  - RedSauceSource
+  - NachoCheeseSource
   layers:
   - Default
   - TransparentFX

@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fb7d029e60028bb4eb7cc91752b35b36, type: 2}
+  - {fileID: 2100000, guid: 3d5e57c185ec68b43bfc59f4335dae76, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134,8 +134,8 @@ Transform:
   m_GameObject: {fileID: 1925543049518127589}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.45, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.5, z: 0.7}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.1, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1978795861351125474}
@@ -184,3 +184,4 @@ MonoBehaviour:
   foodType: 
   ingredients: []
   tacoWrap: {fileID: 6053147240476273557, guid: 49027463d54e4d649ac14d624220f7ac, type: 3}
+  burritoWrap: {fileID: 7485019210225498334, guid: 487417812b855f44485657013cb51431, type: 3}

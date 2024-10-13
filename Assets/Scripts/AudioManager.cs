@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Android;
+using UnityEngine.XR;
 
 public class AudioManager : MonoBehaviour
 {
@@ -17,6 +19,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip scream;
     public AudioClip breathing;
     public AudioClip footsteps;
+
+    //SFX
+    public AudioClip correctOrder;
+    public AudioClip incorrectOrder;
 
 
     // Start is called before the first frame update
@@ -40,15 +46,39 @@ public class AudioManager : MonoBehaviour
         music.Stop();
         ambience.Stop();
     }
+    
+    public void StopAllAudio()
+    {
+        music.Stop();
+        ambience.Stop();
+        player.Stop();
+    }
 
     public void Scream()
     {
         abyss.Play();
     }
 
+    public void Order(bool correct)
+    {
+        if (correct)
+        {
+            SFXSource.clip = correctOrder;
+            SFXSource.Play();
+        }
+        else
+        {
+            SFXSource.clip = incorrectOrder;
+            SFXSource.Play();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            StopAllAudio();
+        }
     }
 }

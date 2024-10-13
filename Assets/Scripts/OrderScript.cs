@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEditor;
 using Random = UnityEngine.Random;
+using Unity.VisualScripting;
 
 public class OrderScript : MonoBehaviour
 {
@@ -18,17 +19,23 @@ public class OrderScript : MonoBehaviour
 
     // Food Type
     string tacoShell = "TacoShell";
+    string tortilla = "Tortilla";
+
+    // Hot stuff
+    string bean = "Bean";
 
     // Proteins
     string beef = "Beef";
 
     // Sauces
+    string redSauce = "RedSauce";
     string sourCream = "SourCream";
 
     // Topings
     string lettuce = "Lettuce";
     string cheese = "Cheese";
     string tomato = "Tomato";
+    string onion = "Onion";
 
     public List<GameObject> lights;
     public Light doorLight;
@@ -40,6 +47,10 @@ public class OrderScript : MonoBehaviour
 
     List<string> regCrunchy; 
     List<string> supCrunchy; 
+    List<string> supBurrito;
+    List<string> beanBurrito;
+
+    int orderNum;
 
     void Awake()
     {
@@ -50,8 +61,10 @@ public class OrderScript : MonoBehaviour
 
         regCrunchy = new List<string> {tacoShell, beef, lettuce, cheese};
         supCrunchy = new List<string> {tacoShell, beef, sourCream, lettuce, cheese, tomato};
+        supBurrito = new List<string> {tortilla, beef, bean, redSauce, sourCream, onion, lettuce, cheese, tomato};
+        beanBurrito = new List<string> {tortilla, bean, redSauce, onion, cheese};
 
-        numberedOrders = new List<List<string>> {regCrunchy, supCrunchy};
+        numberedOrders = new List<List<string>> {regCrunchy, supCrunchy, supBurrito, beanBurrito};
     }
 
     void Start()
@@ -81,15 +94,35 @@ public class OrderScript : MonoBehaviour
 
     void PickNumberedOrder()
     {
-        int orderNum = Random.Range(0, numberedOrders.Count);
+        orderNum = Random.Range(0, numberedOrders.Count);
         Debug.Log(orderNum);
         order = new List<string>(numberedOrders[orderNum]);
     }
 
     void UpdateOrderText()
     {
+        String orderName;
+        switch(orderNum)
+        {
+            case 0:
+                orderName = "Crunchy Taco";
+                break;
+            case 1:
+                orderName = "Crunchy Taco Supreme";
+                break;
+            case 2:
+                orderName = "Supreme Burrito";
+                break;
+            case 3:
+                orderName = "Bean Burrito";
+                break;
+            default:
+                orderName = "Custom";
+                break;
+        }
+
         orderText.color = textColor;
-        displayText = "Order: \n";
+        displayText = "Order: " + orderName + "\n";
 
         foreach (string ingredient in order)
         {
@@ -132,9 +165,10 @@ public class OrderScript : MonoBehaviour
     {
         if (other.transform.parent == null && other.gameObject.layer == 6)
         {
-            if (other.gameObject.tag == "WrappedTaco" && CheckWrappedContents(other.gameObject)) // or wrapped burrito
+            if ((other.gameObject.tag == "WrappedTaco" || other.gameObject.tag == "WrappedBurrito") && CheckWrappedContents(other.gameObject)) // or wrapped burrito
             {
                 orderText.text = "It enjoys it!";
+                audioManager.Order(true);
                 Destroy(other.gameObject);
                 StartCoroutine(WaitAndExecute(2f));
                 return;
@@ -142,6 +176,7 @@ public class OrderScript : MonoBehaviour
             other.GetComponent<Rigidbody>().AddForce(-transform.right * 20, ForceMode.Impulse);
             orderText.color = Color.red;
             StartCoroutine(TemporarilyChangeText("no"));
+            audioManager.Order(false);
         }
     }
 
